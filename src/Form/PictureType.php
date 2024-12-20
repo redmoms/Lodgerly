@@ -3,19 +3,21 @@
 namespace App\Form;
 
 use App\Entity\Lodging;
+use App\Entity\Picture;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LodgingType extends AbstractType
+class PictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('pictures', FileType::class, [
-                'multiple'=>true
+            ->add('link')
+            ->add('lodging', EntityType::class, [
+                'class' => Lodging::class,
+                'choice_label' => 'id',
             ])
         ;
     }
@@ -23,7 +25,7 @@ class LodgingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Lodging::class,
+            'data_class' => Picture::class,
         ]);
     }
 }
