@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lodging;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +14,11 @@ class LodgingType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('pictures', FileType::class, [
-                'multiple'=>true
+            ->add('pictures', CollectionType::class, [
+                'entry_type' => PictureType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }

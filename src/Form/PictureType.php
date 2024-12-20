@@ -2,22 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Lodging;
 use App\Entity\Picture;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class PictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('link')
-            ->add('lodging', EntityType::class, [
-                'class' => Lodging::class,
-                'choice_label' => 'id',
+            ->add('link', FileType::class, [
+                'multiple' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide',
+                    ])
+                ],
             ])
         ;
     }

@@ -30,6 +30,7 @@ final class LodgingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($request);
             $entityManager->persist($lodging);
             $entityManager->flush();
 
