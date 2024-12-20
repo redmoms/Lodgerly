@@ -23,7 +23,6 @@ class Lodging
      */
    
     #[ORM\OneToMany(targetEntity: Picture::class, mappedBy: 'lodging')]
-    #[ORM\JoinColumn(nullable: true)]
     private Collection $pictures;
 
     public function __construct()
