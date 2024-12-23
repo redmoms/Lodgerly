@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lodging index{% endblock %}
+
+{% block body %}
+    <h1>Lodging index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Adress</th>
+                <th>Price_per_night</th>
+                <th>Animals_allowed</th>
+                <th>Simple_bed_count</th>
+                <th>Double_bed_count</th>
+                <th>Bedroom_count</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lodging in lodgings %}
+            <tr>
+                <td>{{ lodging.id }}</td>
+                <td>{{ lodging.name }}</td>
+                <td>{{ lodging.adress }}</td>
+                <td>{{ lodging.pricePerNight }}</td>
+                <td>{{ lodging.animalsAllowed ? 'Yes' : 'No' }}</td>
+                <td>{{ lodging.simpleBedCount }}</td>
+                <td>{{ lodging.doubleBedCount }}</td>
+                <td>{{ lodging.bedroomCount }}</td>
+                <td>{{ lodging.description }}</td>
+                <td>
+                    <a href="{{ path('app_lodging_show', {'id': lodging.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
