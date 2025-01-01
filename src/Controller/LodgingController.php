@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Lodging;
+use App\Entity\Picture;
 use App\Form\LodgingType;
+use App\Form\PictureType;
 use App\Repository\LodgingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +32,7 @@ final class LodgingController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($request);
             $entityManager->persist($lodging);
             $entityManager->flush();
 

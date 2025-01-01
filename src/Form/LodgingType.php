@@ -15,12 +15,12 @@ class LodgingType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('pictures', CollectionType::class, [
-                'entry_type' => PictureType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ])
+            // ->add('pictures', CollectionType::class, [
+            //     'entry_type' => PictureType::class,
+            //     'allow_add' => true,
+            //     'allow_delete' => true,
+            //     'by_reference' => false,
+            // ])
         ;
     }
 
