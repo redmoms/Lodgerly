@@ -8,10 +8,12 @@ use App\Repository\PictureRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[Route('/picture')]
 final class PictureController extends AbstractController
@@ -40,10 +42,10 @@ final class PictureController extends AbstractController
             
             // ... persist the $product variable or any other work
             $picture->setName($name);
-            $picture->setLink($this->getParameter('kernel.project_dir').'/public/images/'.$name);
+            $picture->setLink("/images/".$name);
 
             $entityManager->persist($picture);
-            $entityManager->flush($picture);
+            $entityManager->flush();
             
         
 
@@ -65,12 +67,19 @@ final class PictureController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_picture_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Picture $picture, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Picture $picture, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(PictureType::class, $picture);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $pictureFile = $form->get('name')->getData();          
+            if ($pictureFile) {
+                $name = $fileUploader->upload($pictureFile);
+            }
+            
+            $picture->setName($name);
+            $picture->setLink("/images/".$name);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_picture_index', [], Response::HTTP_SEE_OTHER);
