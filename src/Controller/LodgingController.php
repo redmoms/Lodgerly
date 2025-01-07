@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Lodging;
+use App\Entity\Picture;
 use App\Form\LodgingType;
 use App\Repository\LodgingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,11 +26,16 @@ final class LodgingController extends AbstractController
     #[Route('/new', name: 'app_lodging_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         $lodging = new Lodging();
+        $picture = new Picture();
         $form = $this->createForm(LodgingType::class, $lodging);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $picture = $form->get('pictures')->getData();
+            $fileName = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
+            dd($fileName);
             $entityManager->persist($lodging);
             $entityManager->flush();
 

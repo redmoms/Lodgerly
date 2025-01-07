@@ -15,7 +15,7 @@ class PictureType extends AbstractType
     {
         $builder
             ->add('name',  FileType::class, [
-                'label' => 'Picture',
+                'label' => false,
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
