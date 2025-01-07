@@ -9,7 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Name</th>
                 <th>Link</th>
+                 <th>apercu</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,7 +19,9 @@
         {% for picture in pictures %}
             <tr>
                 <td>{{ picture.id }}</td>
+                <td>{{ picture.name }}</td>
                 <td>{{ picture.link }}</td>
+                <td> <img width="150px" src= "{{ picture.link }}" /> </td>
                 <td>
                     <a href="{{ path('app_picture_show', {'id': picture.id}) }}">show</a>
                     <a href="{{ path('app_picture_edit', {'id': picture.id}) }}">edit</a>
@@ -25,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -14,15 +14,26 @@ class Picture
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $link = null;
+    private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pictures')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Lodging $lodging = null;
+    #[ORM\Column(length: 255)]
+    private ?string $link = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getLink(): ?string
@@ -33,18 +44,6 @@ class Picture
     public function setLink(string $link): static
     {
         $this->link = $link;
-
-        return $this;
-    }
-
-    public function getLodging(): ?Lodging
-    {
-        return $this->lodging;
-    }
-
-    public function setLodging(?Lodging $lodging): static
-    {
-        $this->lodging = $lodging;
 
         return $this;
     }
