@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/picture')]
 final class PictureController extends AbstractController
@@ -30,6 +31,10 @@ final class PictureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['link']->getData();
+            $file->move('/public/images', $file->getClientOriginalName());
+            $picture->setName($file->getClientOriginalName());
+            $picture->setLink('/public/images/'.$file->getClientOriginalName());
             $entityManager->persist($picture);
             $entityManager->flush();
 

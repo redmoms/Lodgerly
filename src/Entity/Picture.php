@@ -19,10 +19,6 @@ class Picture
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
-    #[ORM\ManyToOne(inversedBy: 'pictures')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Lodging $lodging = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -48,18 +44,6 @@ class Picture
     public function setLink(string $link): static
     {
         $this->link = $link;
-
-        return $this;
-    }
-
-    public function getLodging(): ?Lodging
-    {
-        return $this->lodging;
-    }
-
-    public function setLodging(?Lodging $lodging): static
-    {
-        $this->lodging = $lodging;
 
         return $this;
     }
