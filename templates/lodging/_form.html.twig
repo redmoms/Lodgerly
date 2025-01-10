@@ -6,6 +6,6 @@
 >
     <ul {{ stimulus_target('form-collection', 'collectionContainer') }}></ul>
     <button type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>ajouter une image</button>
-</div>
+    </div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

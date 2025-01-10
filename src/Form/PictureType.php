@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Picture;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +19,7 @@ class PictureType extends AbstractType
                 'label' => false,
                 'mapped' => false,
                 'required' => false,
+                'attr' => ['accept' => 'image/*'],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -29,6 +31,11 @@ class PictureType extends AbstractType
                     ])
                 ],
             ])
+            ->add('delete', CheckboxType::class, [
+                'label' => 'Supprimer cette image',
+                'mapped' => false,
+                'required' => false, 
+            ]);
         ;
     }
 

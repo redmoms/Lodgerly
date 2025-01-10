@@ -20,6 +20,9 @@ class LodgingType extends AbstractType
                 'by_reference' => false,  
                 'allow_add' => true,
                 'allow_delete' => true, 
+                'attr' => [
+                    'class' => 'pictures-collection'
+                ],
             ])
         ;
     }

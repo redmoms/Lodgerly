@@ -20,8 +20,16 @@ final class LodgingController extends AbstractController
     #[Route(name: 'app_lodging_index', methods: ['GET'])]
     public function index(LodgingRepository $lodgingRepository): Response
     {
+        $lodgings = $lodgingRepository->findAll();
+        $picturesTab = array();
+        foreach($lodgings as $lodging){
+            foreach($lodging->getPictures() as $picture){
+                $picturesTab[] = $picture->getLink();
+            }
+        }
         return $this->render('lodging/index.html.twig', [
-            'lodgings' => $lodgingRepository->findAll(),
+            'lodgings' => $lodgings,
+            'picturesTab' => $picturesTab,
         ]);
     }
 
@@ -42,7 +50,8 @@ final class LodgingController extends AbstractController
                     $fileName = $fileUploader->upload($pictureFile);
                     $picture->setName($fileName);
                     $picture->setLink("/images/".$fileName);
-                }                                 
+                }
+                
             }
             $entityManager->persist($lodging);
             $entityManager->flush();
@@ -65,7 +74,7 @@ final class LodgingController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_lodging_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Lodging $lodging, EntityManagerInterface $entityManager, FileUploader $fileUploader, Picture $picture): Response
+    public function edit(Request $request, Lodging $lodging, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(LodgingType::class, $lodging);
         $form->handleRequest($request);
@@ -79,8 +88,14 @@ final class LodgingController extends AbstractController
                     $fileName = $fileUploader->upload($pictureFile);
                     $picture->setName($fileName);
                     $picture->setLink("/images/".$fileName);
-                }                                 
+                }
+                
+                if ($pictureForm->get('delete')->getData()) {
+                    $existingPicture = $lodging->getPictures()->get($key);
+                    $entityManager->remove($existingPicture);
+                }
             }
+    
             $entityManager->flush();
 
             return $this->redirectToRoute('app_lodging_index', [], Response::HTTP_SEE_OTHER);
